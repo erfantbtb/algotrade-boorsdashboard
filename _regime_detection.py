@@ -49,7 +49,7 @@ class RegimeDetection:
             lambd.value = lambda_value
             problem.solve()
 
-            return beta.value
+            return pd.Series(beta.value)
         
         else: 
             raise TypeError("rets should be either pd.DataFrame or pd.Series!")
@@ -113,7 +113,7 @@ class RegimeDetection:
                     save[i] = 1
                 else:
                     save[i] = -1
-            return save
+            return pd.Series(save)
         
         else: 
             raise TypeError("rets should be either pd.DataFrame or pd.Series!")

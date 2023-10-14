@@ -8,7 +8,7 @@ from typing import Union
 class ReturnStatistic:
     def __init__(self,  
                  symbol_price: pd.DataFrame, 
-                 strategy_returns: [pd.Series, pd.DataFrame, None]) -> None:
+                 strategy_returns: [pd.Series, pd.DataFrame, None] = None) -> None:
         self.symbol_price = symbol_price 
         
         if strategy_returns == None:
@@ -24,9 +24,8 @@ class ReturnStatistic:
     def check_data(self) -> bool:
         pass 
     
-    def compute_returns_stats(self, 
-                              rets: Union[pd.DataFrame, pd.Series]) -> pd.DataFrame: 
-        stats = Measurements([1, 2, 3]).analyze(rets, 1)
+    def compute_returns_stats(self) -> pd.DataFrame: 
+        stats = Measurements([1, 2, 3]).analyze(self.strategy_returns, 1)
         stats.index.name = "statistics"
         return stats 
     
@@ -38,7 +37,6 @@ class FundamentalData:
         
     def symbol_information(self) -> None:
         self.title = self.ticker.title
-        self.client = self.ticker.client_types 
         self.group_name = self.ticker.group_name 
         self.financial_year = self.ticker.fiscal_year 
         
@@ -47,6 +45,19 @@ class FundamentalData:
         self.p_e = self.ticker.p_e_ratio
         self.group_p_e = self.ticker.group_p_e_ratio 
         self.market_cap = self.ticker.market_cap 
+        
+    def fundamental_table(self) -> pd.DataFrame:
+        fundamental_dict = {
+            "symbol": self.title, 
+            "group": self.group_name, 
+            "financial_year": self.financial_year, 
+            "eps": self.eps, 
+            "p_e": self.p_e, 
+            "group p_e": self.group_p_e, 
+            "market cap": self.market_cap
+        }
+        # return pd.DataFrame(fundamental_dict)
+        return fundamental_dict
         
     
         
